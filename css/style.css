@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+body {
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+}
+
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.info-block {
+
+    display: block;
+    border: 1px rgb(146, 144, 144) solid;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    width: 80%;
+    text-align: center; 
+    margin-top: 50px;
+    padding: 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
+    text-decoration: none;
+    color: #444;
+}
+
+.info-block>ol {
+    text-align: left; 
+    line-height: 1.5;
+}    
+
+.data-form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-rows: 60px;
+    padding: 5px;
+    margin: 0;
+    /* grid-gap: 1px; */
+    width: 100%;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
+    text-decoration: none;
+    color: #444;    
+}
+
+.data-form>.inpt {
+    width: 90%;
+    background-color: #fff;
+    border: 1px solid #b5b5b5;
+    color: #666;
+    height: 28px;
+    line-height: 28px;
+    margin: 0;
+    padding: 0 10px;
+    font-size: 100%;
+  }
+  
+  .data-form>.lbl {
+    margin: 0;
+    width: 90%;
+    padding: 10px 0;
+    vertical-align: bottom;
+    font-size: 95%;
+    color: #797773;
+  }
+  
+  .data-form>.btn {
+    padding: 0 5px;
+    margin: 10px auto 10px 0;
+    border: 1px solid #3b3b39;
+    cursor: pointer;
+    font-size: 12pt;
+    width: 40%;
+    height: auto;
+    color: #000;
+    background-color: #949393;
+    border-radius: 3px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+  }
+  
