@@ -34,6 +34,10 @@ function rem_html_tags($tags, $str)
         $html[] = '/(<' . $tag . '.*?>[\s|\S]*?<\/' . $tag . '>)/';
         $html[] = '/<meta name="' . $tag . '".*?>/';
     }
+
+    //print_r($html);
+    //die;
+
     $data = preg_replace($html, '', $str);
 
     return $data;
@@ -48,8 +52,8 @@ function removeType1($fileName, $tags)
     // читаем файл в строку
     $fileContent =  file_get_contents($filePath);
 
-    // удаляем ненужные теги
-    $fileContentNew = rem_html_tags(array('title', 'description', 'keywords'), $fileContent, 1);
+    // удаляем ненужные теги array('title', 'description', 'keywords')
+    $fileContentNew = rem_html_tags($tags, $fileContent, 1);
 
     // удалим, если такой уже есть
     if (file_exists($filePathNew)) {
@@ -66,12 +70,17 @@ function removeType2($fileName, $tags)
     $filePathNew = FILE_DIR . 'clear-2_' . basename($fileName);
 
     $object = new ArrayObject(file($filePath));
-    $tags = array('title', 'description', 'keywords');
+
+    //$tags = array('title', 'description', 'keywords');
     $filter = array();
+    
     foreach ($tags as $tag) {
         $filter[] = '/(<' . $tag . '.*?>[\s|\S]*?<\/' . $tag . '>)/';
         $filter[] = '/<meta name="' . $tag . '".*?>/';
     }
+
+    //print_r($filter);
+    //die;
 
     $iterator = new HtmlFilter($object->getIterator(), $filter);
 
@@ -94,7 +103,9 @@ if (isset($_POST['submit1'])) {
     die;
 }
 if (isset($_POST['tags'])) {
-    $tags = $_POST['tags'];
+    $param = $_POST['tags'];
+    $param = str_replace(' ', '', $param);
+    $tags = explode(',', $param);
 } else {
     echo 'Неверный вызов ресурса!';
     die;
