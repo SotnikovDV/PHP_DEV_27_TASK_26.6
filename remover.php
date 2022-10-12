@@ -1,5 +1,7 @@
 <?php
 
+const FILE_DIR = 'data/';
+
 // Итератор с фильтрацией по мета-тегам
 class HtmlFilter extends FilterIterator
 {
@@ -37,10 +39,11 @@ function rem_html_tags($tags, $str)
     return $data;
 }
 
+// Очистка тегов без итератора (оставляект пустые строки вместо тегов)
 function removeType1($fileName, $tags)
 {
-    $filePath = 'data/' . basename($fileName);
-    $filePathNew = 'data/clear-1_' . basename($fileName);
+    $filePath = FILE_DIR . basename($fileName);
+    $filePathNew = FILE_DIR . 'clear-1_' . basename($fileName);
 
     // читаем файл в строку
     $fileContent =  file_get_contents($filePath);
@@ -56,10 +59,11 @@ function removeType1($fileName, $tags)
     file_put_contents($filePathNew, $fileContentNew, LOCK_EX);
 }
 
+// Очистка тегов с итератором
 function removeType2($fileName, $tags)
 {
-    $filePath = 'data/' . basename($fileName);
-    $filePathNew = 'data/clear-2_' . basename($fileName);
+    $filePath = FILE_DIR . basename($fileName);
+    $filePathNew = FILE_DIR . 'clear-2_' . basename($fileName);
 
     $object = new ArrayObject(file($filePath));
     $tags = array('title', 'description', 'keywords');
@@ -77,17 +81,10 @@ function removeType2($fileName, $tags)
         $html[] = $result;
     }
     file_put_contents($filePathNew, $html, LOCK_EX);
-
-    //$fileContentNew = $iterator;
-    /*
-    $html = [];
-    foreach ($iterator as $result) {
-        $html[] = $result;
-        echo $result;
-    }
-    */
 }
 
+/* ------------------------------------------ тело программы --------------------------------------- */
+// проверяем переданные параметры
 if (isset($_POST['submit1'])) {
     $type = 1;
 } elseif (isset($_POST['submit2'])) {
@@ -102,7 +99,6 @@ if (isset($_POST['tags'])) {
     echo 'Неверный вызов ресурса!';
     die;
 }
-
 if (empty($_FILES)) {
     echo 'Не указаны файлы для очистки!';
     die;
@@ -115,7 +111,7 @@ for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
 
     $fileName = $_FILES['files']['name'][$i];
 
-    $filePath = 'data/' . basename($fileName);
+    $filePath = FILE_DIR . basename($fileName);
 
     // удалим, если такой уже есть
     if (file_exists($filePath)) {
@@ -131,13 +127,18 @@ for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
         var_dump($errors);
         die;
     }
+
+    // Очищаем выбранным методом
     if ($type === 1) {
         removeType1($filePath, $tags);
     } elseif ($type === 2) {
-            removeType2($filePath, $tags);
+        removeType2($filePath, $tags);
     }
-    
+
+    if (!$errors) {
     // Возвращаемся на главную
     header("Location: /?success");
-
+    } else {
+        print_r($errors);
+    }
 }
