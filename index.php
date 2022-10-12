@@ -18,12 +18,17 @@
             <ol>
                 <li>Выберите файл(ы)</li>
                 <li>Укажите через запятую, какие теги очищать</li>
-                <li>Нажмите кнопку [Очистить]</li>
+                <li>Нажмите кнопку [Очистить-X]</li>
+            </ol>
+            <br><b>Варианты очистки:</b><br>
+            <ol>
+                <li>Без использования итератора</li>
+                <li>С использованием итератора</li>
             </ol>
             </p><br>
             <hr><br>
             <p>Очищенный файл будет записан в директорию <b>/data/</b> с именем
-            <pre>clear-xxxxxxxx.xxxx</pre>
+            <pre>clear-X_%SOURCE_FILE_NAME%</pre>
             </p>
             
         </div>
@@ -46,8 +51,8 @@
                     <input type="file" name="files[]" id="file-drop" class="lbl" multiple required accept=".htm, .html, .php">
                     <label class="lbl" for="tags">Очищать мета-теги:</label>
                     <input name="tags" type="text" class="inpt" placeholder="..." autofocus value="title, description, keywords">
-                    <span></span>
-                    <input name="submit" type="submit" value="Очистить" class="btn">
+                    <input name="submit1" type="submit" value="Очистить-1" class="btn">
+                    <input name="submit2" type="submit" value="Очистить-2" class="btn">
                 </form>
             </div>
         <?php } ?>

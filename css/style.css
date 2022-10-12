@@ -72,11 +72,11 @@ main {
   
   .data-form>.btn {
     padding: 0 5px;
-    margin: 10px auto 10px 0;
+    margin: 10px auto;
     border: 1px solid #3b3b39;
     cursor: pointer;
     font-size: 12pt;
-    width: 40%;
+    width: 120px;
     height: auto;
     color: #000;
     background-color: #949393;
