@@ -1,6 +1,6 @@
 <?php
 
-// Итератор с фильтрацией мета-тегам
+// Итератор с фильтрацией по мета-тегам
 class HtmlFilter extends FilterIterator
 {
     private $filters;
@@ -40,6 +40,7 @@ function rem_html_tags($tags, $str)
 function removeType1($fileName, $tags)
 {
     $filePath = 'data/' . basename($fileName);
+    $filePathNew = 'data/clear-1_' . basename($fileName);
 
     // читаем файл в строку
     $fileContent =  file_get_contents($filePath);
@@ -47,18 +48,18 @@ function removeType1($fileName, $tags)
     // удаляем ненужные теги
     $fileContentNew = rem_html_tags(array('title', 'description', 'keywords'), $fileContent, 1);
 
-    $filePathNew = 'data/clear-' . basename($fileName);
     // удалим, если такой уже есть
     if (file_exists($filePathNew)) {
         unlink($filePathNew);
     }
-    // сохраняем файл в /data/clear-$filename
+    // сохраняем файл в /data/clear-1_$filename
     file_put_contents($filePathNew, $fileContentNew, LOCK_EX);
 }
 
 function removeType2($fileName, $tags)
 {
     $filePath = 'data/' . basename($fileName);
+    $filePathNew = 'data/clear-2_' . basename($fileName);
 
     $object = new ArrayObject(file($filePath));
     $tags = array('title', 'description', 'keywords');
@@ -70,11 +71,21 @@ function removeType2($fileName, $tags)
 
     $iterator = new HtmlFilter($object->getIterator(), $filter);
 
+    // сохраняем файл в /data/clear-1_$filename
+    $html = [];
+    foreach ($iterator as $result) {
+        $html[] = $result;
+    }
+    file_put_contents($filePathNew, $html, LOCK_EX);
+
+    //$fileContentNew = $iterator;
+    /*
     $html = [];
     foreach ($iterator as $result) {
         $html[] = $result;
         echo $result;
     }
+    */
 }
 
 if (isset($_POST['submit1'])) {
